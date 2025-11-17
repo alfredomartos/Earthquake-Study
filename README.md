@@ -1,6 +1,6 @@
 This is a backend service that ingests real-time earthquake data from the USGS, stores it in a PostgreSQL database, and exposes it via a containerized RESTful API.
 
-CORE FEATURES
+**CORE FEATURES**
 
 RESTful API: Exposes endpoints to GET all earthquakes or GET one by ID.
 Data Ingestion: Automatically fetches and saves new earthquake data from the USGS.
@@ -10,7 +10,7 @@ Pagination: The GET /earthquakes endpoint is paginated using skip and limit.
 Auto-Documentation: Automatic, interactive API documentation is provided by Swagger UI.
 Containerized: The entire application (API + Database) is fully containerized with Docker and Docker Compose.
 
-TECH STACK
+**TECH STACK**
 
 Backend: Python 3.11, FastAPI, Uvicorn
 Database: PostgreSQL 14
@@ -19,9 +19,9 @@ Data Validation: Pydantic
 Containerization: Docker & Docker Compose
 API Client (Internal): requests
 
-SETUP
+**SETUP**
 
-PREREQUISITES
+**PREREQUISITES**
 Git
 Docker Desktop (must be open and running)
 
@@ -30,8 +30,10 @@ Docker Desktop (must be open and running)
 Code: docker-compose up --build
 3- http://localhost:8000/docs
 
-ASSUMPTIONS AND LIMITATIONS
+**ASSUMPTIONS AND LIMITATIONS**
 
 Assumptions: I assumed the USGS API is the single source of truth and is generally reliable.
 Error Handling: The ingestion task has basic try...except blocks. For a production system, failed ingestion tasks (e.g., if the USGS API is down) should be sent to a retry queue instead of just being logged to the console.
 Scalability: The asyncio background task is simple and effective for this scale. For a high-volume system, this task would be moved to a separate, dedicated worker to ensure data ingestion never impacts the API's web traffic performance.
+Date Filtering: The date/time filters (`start_date`, `end_date`) are precise. If a user provides only a date (like `2025-11-17`), the API will interpret it as midnight (`2025-11-17T00:00:00`). To filter for a full day, the user must provide the complete time range (e.g., `start_date=2025-11-17T00:00:00` and `end_date=2025-11-17T23:59:59`).
+
